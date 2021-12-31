@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/account/register/register.compon
 import { HomeComponent } from './components/layout/home/home.component';
 import { AuthenticationComponent } from './components/layout/authentication/authentication.component';
 import { RepoComponent } from './components/entity/repo/repo.component';
+import { NavbarComponent } from './components/layout/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RepoComponent } from './components/entity/repo/repo.component';
     RegisterComponent,
     HomeComponent,
     AuthenticationComponent,
-    RepoComponent
+    RepoComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
