@@ -12,9 +12,9 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree{
-    let mockedToken = window.sessionStorage.getItem('mock');
+    let mockedToken = window.sessionStorage.getItem('mockedToken');
 
-    if (true) {
+    if (mockedToken) {
       return true;
     } else {
       this.router.navigate(['login']);
