@@ -1,1 +1,41 @@
-<p>repo works!</p>
+<div class="container">
+    <section class="main">
+
+        <div class="search">
+            <input #searchInput (input)="findRepo(searchInput.value)" type="text" class="search-input" placeholder="Encontre um repositório...">
+
+            <ul class="resultado-pesquisa">
+                <li *ngFor="let repo of filteredRepos$ | async" >
+                  <a>
+                    {{ repo }}
+                  </a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="repos-list">
+            <h3>Repositórios</h3>
+            <ul *ngFor="let repo of repos">
+                <li>
+                    <div class="left-block">
+                        <span class="repo-owner">{{ repo.owner }}</span>
+                        <span class="repo-name"><b>{{ repo.name }}</b></span>
+                    </div>
+                    <div class="right-block">
+                        <mat-icon (click)="removeRepo(repo)">delete</mat-icon>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+    <section class="bottom">
+
+        <form class="new-repo">
+            <span class="text">Novo Repo</span>
+            <input type="text" class="new-repo-input" placeholder="Adicione um repositório..." name="repoUrl" [(ngModel)]="repoUrl">
+            <button (click)="addRepo()" class="new-repo-button">Adicionar</button>
+        </form>
+
+    </section>
+</div>

@@ -9,6 +9,10 @@ import { HomeComponent } from './components/layout/home/home.component';
 import { AuthenticationComponent } from './components/layout/authentication/authentication.component';
 import { RepoComponent } from './components/entity/repo/repo.component';
 import { NavbarComponent } from './components/layout/navbar/navbar.component';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { NavbarComponent } from './components/layout/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
