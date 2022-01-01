@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserDto } from 'src/app/models/dto/user-dto/UserDto';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -8,20 +10,21 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  email?: string;
+  password?: string;
+  userDto: UserDto = new UserDto();
+
   constructor(
-    private router: Router
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
   }
 
   public login(): void {
-    window.sessionStorage.setItem('mockedToken', 'token');
-    this.redirectToRepos();
-  }
-
-  public redirectToRepos(): void {
-    this.router.navigate(['/']);
+    this.userDto.email = this.email;
+    this.userDto.password = this.password;
+    this.userService.login(this.userDto);
   }
 
 }
