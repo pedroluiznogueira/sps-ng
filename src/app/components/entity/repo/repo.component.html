@@ -2,36 +2,27 @@
     <section class="main">
 
         <div class="search">
-            <input type="text" class="search-input" placeholder="Encontre um repositório...">
+            <input #searchInput (input)="findRepo(searchInput.value)" type="text" class="search-input" placeholder="Encontre um repositório...">
+
+            <ul class="resultado-pesquisa">
+                <li *ngFor="let repo of filteredRepos$ | async" >
+                  <a>
+                    {{ repo }}
+                  </a>
+                </li>
+            </ul>
+
         </div>
         <div class="repos-list">
             <h3>Repositórios</h3>
-            <ul>
+            <ul *ngFor="let repo of repos">
                 <li>
                     <div class="left-block">
-                        <span class="repo-owner">lucaslimas</span>
-                        <span class="repo-name"><b>helpers</b></span>
+                        <span class="repo-owner">{{ repo.owner }}</span>
+                        <span class="repo-name"><b>{{ repo.name }}</b></span>
                     </div>
                     <div class="right-block">
-                        <mat-icon>delete</mat-icon>
-                    </div>
-                </li>
-                <li>
-                    <div class="left-block">
-                        <span class="repo-owner">spsconsultoria</span>
-                        <span class="repo-name"><b>reactjs</b></span>
-                    </div>
-                    <div class="right-block">
-                        <mat-icon>delete</mat-icon>
-                    </div>
-                </li>
-                <li>
-                    <div class="left-block">
-                        <span class="repo-owner">usergit</span>
-                        <span class="repo-name"><b>repository</b></span>
-                    </div>
-                    <div class="right-block">
-                        <mat-icon>delete</mat-icon>
+                        <mat-icon (click)="removeRepo(repo)">delete</mat-icon>
                     </div>
                 </li>
             </ul>
@@ -40,11 +31,11 @@
     </section>
     <section class="bottom">
 
-        <div class="new-repo">
+        <form class="new-repo">
             <span class="text">Novo Repo</span>
-            <input type="text" class="new-repo-input" placeholder="Adicione um repositório...">
-            <button class="new-repo-button">Adicionar</button>
-        </div>
+            <input type="text" class="new-repo-input" placeholder="Adicione um repositório..." name="repoUrl" [(ngModel)]="repoUrl">
+            <button (click)="addRepo()" class="new-repo-button">Adicionar</button>
+        </form>
 
     </section>
 </div>
