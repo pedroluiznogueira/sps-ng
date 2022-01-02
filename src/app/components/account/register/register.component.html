@@ -16,6 +16,8 @@
         <div class="form-group-question">
             <small [routerLink]="['/login']" class="question-text">Já tem uma conta ?</small>
         </div>
-        <button type="submit" class="btn btn-primary">Criar conta</button>
+        <button *ngIf="hideButton" type="submit" class="btn btn-primary">Criar conta</button>
+        <div *ngIf="hideLoader" id="loader"></div>
+        <div id="feedback"></div>
     </form>
 </div>

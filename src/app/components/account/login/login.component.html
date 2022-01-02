@@ -1,5 +1,5 @@
 <div class="container">
-    <form class="form" (submit)="login()">
+    <form class="form">
         <h3>Login</h3>
         <div class="form-group">
           <label for="exampleInputEmail1">E-mail</label>
@@ -12,6 +12,9 @@
         <div class="form-group-question">
             <small [routerLink]="['/register']" class="question-text">Ainda não tem uma conta ?</small>
         </div>
-        <button type="submit" class="btn btn-primary">Entrar</button>
+        <button *ngIf="hideButton" type="submit" class="btn btn-primary" (click)="login()">Entrar</button>
+        <div *ngIf="hideLoader" id="loader"></div>
+        <div id="feedback"></div>
     </form>
 </div>
+
