@@ -18,12 +18,12 @@ export class ReposService {
   ) { }
 
   public displayRepos(): Observable<Repos> {
-    let name = window.sessionStorage.getItem('loggedUser');
+    let loggedUser = JSON.parse(window.sessionStorage.getItem('loggedUser')!);
     let header: HttpHeaders = new HttpHeaders({
       'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
     });
     
-    let obs = this.http.get(`${this.url}/users/find/all/repos/` + name, { headers: header });
+    let obs = this.http.get(`${this.url}/repos/find/all/` + loggedUser.id, { headers: header });
     obs.subscribe(
       (res) => {
         console.log(res)
@@ -33,22 +33,23 @@ export class ReposService {
   }
 
   public findRepo(repoToFind: string): Promise<Repos | undefined> {
-    let name = window.sessionStorage.getItem('loggedUser');
+    let loggedUser = JSON.parse(window.sessionStorage.getItem('loggedUser')!);
     let header: HttpHeaders = new HttpHeaders({
       'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
     });
 
-    const promise = this.http.get(`${this.url}/users/find/repo/from/user/${name}/by/name/${repoToFind}`, { headers: header }).toPromise();
+    const promise = this.http.get(`${this.url}/repos/find/repo/by/name/${repoToFind}/by/user/id/${loggedUser.id}`, { headers: header }).toPromise();
     return promise;
   }
 
   public addRepo(repoUrl: string): Promise<Object | undefined>{
+    let loggedUser = JSON.parse(window.sessionStorage.getItem('loggedUser')!);
     this.extractNameAndOwner(repoUrl);
     let header: HttpHeaders = new HttpHeaders({
       'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
     });
     
-    const promise = this.http.post(`${this.url}/users/insert/repo`, this.newRepo, { headers: header }).toPromise();
+    const promise = this.http.post(`${this.url}/repos/insert/repo/user/` + loggedUser.id, this.newRepo, { headers: header }).toPromise();
     return promise;
   }
 
@@ -80,7 +81,7 @@ export class ReposService {
       'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
     });
 
-    this.http.post(`${this.url}/users/delete/repo`, repo, { headers: header })
+    this.http.delete(`${this.url}/repos/delete/repo/` + repo.id, { headers: header })
     .subscribe(
       (resp) => {
         console.log(resp);   
@@ -88,26 +89,17 @@ export class ReposService {
     )
   }
 
-  public removeFoundRepo(foundRepoName: string): void {
+  public removeFoundRepo(): void {
+    let foundRepo = JSON.parse(window.sessionStorage.getItem('foundRepo')!);    
     let header: HttpHeaders = new HttpHeaders({
       'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
     });
 
-    const promise = this.findRepo(foundRepoName)
-      .then(
-        (repo) => {
-          this.http.post(`${this.url}/users/delete/repo`, repo, { headers: header })
-          .subscribe(
-            (resp) => {
-              console.log(resp);   
-            }
-          )
-        }
-      )
-      .catch(
-        (error) => {
-          console.log("error");
-        }
-      );
+    this.http.delete(`${this.url}/repos/delete/repo/` + foundRepo.id, { headers: header })
+    .subscribe(
+      (resp) => {
+        console.log(resp);   
+      }
+    )
   }
 }

@@ -39,6 +39,7 @@ export class RepoComponent implements OnInit {
           setTimeout(() => {
             this.hideFeedback = false;
             this.foundRepo = resp;
+            window.sessionStorage.setItem('foundRepo', JSON.stringify(resp));
             this.showFoundRepo = true;
             this.hideButton = true;
           }, 1000)
@@ -95,10 +96,10 @@ export class RepoComponent implements OnInit {
     }
   }
 
-  public removeFoundRepo(foundRepoName: string): void {
+  public removeFoundRepo(): void {
     if (confirm("Você tem certeza que deseja excluir este repositório ?")) {
       this.showFoundRepo = false;
-      this.reposService.removeFoundRepo(foundRepoName);
+      this.reposService.removeFoundRepo();
     }
   }
 
