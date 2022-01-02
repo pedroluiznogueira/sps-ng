@@ -1,19 +1,13 @@
 <div class="container">
     <section class="main">
-
-        <div class="search">
-            <input #searchInput (input)="findRepo(searchInput.value)" type="text" class="search-input" placeholder="Encontre um repositório...">
-
-            <ul class="resultado-pesquisa">
-                <li *ngFor="let repo of filteredRepos$ | async" >
-                  <a>
-                    {{ repo }}
-                  </a>
-                </li>
-            </ul>
-
-        </div>
-        <div class="repos-list">
+        <form class="new-repo">
+            <span class="text">Pesquisar</span>
+            <input id="search" type="text" class="new-repo-input" placeholder="Encontre um repositório..." name="repoUrl" [(ngModel)]="repoToFind">
+            <button *ngIf="hideButton" (click)="findRepo()" class="new-repo-button">Pesquisar</button>
+            <div *ngIf="hideLoader" id="loader"></div>
+            <div *ngIf="hideFeedback" id="feedback"></div>
+        </form>
+        <div *ngIf="hideList" class="repos-list">
             <h3>Repositórios</h3>
             <ul *ngFor="let repo of repos">
                 <li>
@@ -23,6 +17,21 @@
                     </div>
                     <div class="right-block">
                         <mat-icon (click)="removeRepo(repo)">delete</mat-icon>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div *ngIf="showFoundRepo" class="repos-list">
+            <h3>Repositórios</h3>
+            <ul>
+                <li>
+                    <div class="left-block">
+                        <span class="repo-owner">{{ foundRepo.owner }}</span>
+                        <span class="repo-name"><b>{{ foundRepo.name }}</b></span>
+                    </div>
+                    <div class="right-block">
+                        <mat-icon (click)="removeFoundRepo(foundRepo.name!)">delete</mat-icon>
                     </div>
                 </li>
             </ul>

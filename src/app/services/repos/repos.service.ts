@@ -32,16 +32,14 @@ export class ReposService {
     return obs;
   }
 
-  public findRepo(term: string): Observable<Repos[]> {
-    if (term.trim()) return of([]);
-    let obs = this.http.get<Repos[]>(`${this.url}/repos/find/name/` + term);
-    obs.subscribe(
-      (res) => {
-        console.log(res)
-      }
-    )
+  public findRepo(repoToFind: string): Promise<Repos | undefined> {
+    let name = window.sessionStorage.getItem('loggedUser');
+    let header: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
+    });
 
-    return obs;
+    const promise = this.http.get(`${this.url}/users/find/repo/from/user/${name}/by/name/${repoToFind}`, { headers: header }).toPromise();
+    return promise;
   }
 
   public addRepo(repoUrl: string) {
@@ -72,6 +70,23 @@ export class ReposService {
   }
 
   public removeRepo(repo: Repos) {
-    // this.repos.splice(this.repos.indexOf(repo), 1);
+    let header: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
+    });
+
+    this.http.post(`${this.url}/users/delete/repo`, repo, { headers: header })
+    .subscribe(
+      (resp) => {
+        console.log(resp);   
+      }
+    )
+  }
+
+  public removeFoundRepo(foundRepoName: string): void {
+    let header: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
+    });
+
+    const promise = this.findRepo(foundRepoName);
   }
 }
