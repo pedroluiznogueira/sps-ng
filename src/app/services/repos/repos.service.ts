@@ -93,6 +93,21 @@ export class ReposService {
       'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
     });
 
-    const promise = this.findRepo(foundRepoName);
+    const promise = this.findRepo(foundRepoName)
+      .then(
+        (repo) => {
+          this.http.post(`${this.url}/users/delete/repo`, repo, { headers: header })
+          .subscribe(
+            (resp) => {
+              console.log(resp);   
+            }
+          )
+        }
+      )
+      .catch(
+        (error) => {
+          console.log("error");
+        }
+      );
   }
 }

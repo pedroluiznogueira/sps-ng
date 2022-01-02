@@ -73,25 +73,33 @@ export class RepoComponent implements OnInit {
     this.reposService.addRepo(this.repoUrl!)
       .then(
         (resp) => {
+          console.log(resp);
           this.displayRepos();
         }
       )
       .catch(
         (error) => {
-         console.log(error);
+          document.getElementById("add-input")!.classList.add("already-exists");
+          setTimeout(() => {
+            document.getElementById("add-input")!.classList.remove("already-exists");
+          }, 2000)
         }
       );
     this.repoUrl = " ";
   }
 
   public removeRepo(repo: Repos): void {
-    this.reposService.removeRepo(repo);
-    this.removeRepoFromScreen(repo);
+    if (confirm("Você tem certeza que deseja excluir este repositório ?")) {
+      this.reposService.removeRepo(repo);
+      this.removeRepoFromScreen(repo);
+    }
   }
 
   public removeFoundRepo(foundRepoName: string): void {
-    this.showFoundRepo = false;
-    this.reposService.removeFoundRepo(foundRepoName);
+    if (confirm("Você tem certeza que deseja excluir este repositório ?")) {
+      this.showFoundRepo = false;
+      this.reposService.removeFoundRepo(foundRepoName);
+    }
   }
 
   public removeRepoFromScreen(repo: Repos): void {

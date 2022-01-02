@@ -201,3 +201,13 @@
 .reset-input {
     color: rgb(146, 146, 146);
 }
+
+/* adding repo feedback */
+
+.already-exists {
+    border: 1px solid red;
+}
+
+.added {
+    border: 1px solid green;
+}

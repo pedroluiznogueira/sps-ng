@@ -42,7 +42,7 @@
 
         <form class="new-repo">
             <span class="text">Novo Repo</span>
-            <input type="text" class="new-repo-input" placeholder="Adicione um repositório..." name="repoUrl" [(ngModel)]="repoUrl">
+            <input id="add-input" type="text" class="new-repo-input" placeholder="Adicione um repositório..." name="repoUrl" [(ngModel)]="repoUrl">
             <button (click)="addRepo()" class="new-repo-button">Adicionar</button>
         </form>
 
