@@ -1,0 +1,50 @@
+<div class="container">
+    <section class="main">
+        <form id="search-form" class="new-repo">
+            <span class="text">Pesquisar</span>
+            <input id="search" type="text" class="new-repo-input" placeholder="Encontre um repositório..." name="repoUrl" [(ngModel)]="repoToFind">
+            <button *ngIf="hideButton" (click)="findRepo()" class="new-repo-button">Pesquisar</button>
+            <div *ngIf="hideLoader" id="loader"></div>
+            <div *ngIf="hideFeedback" id="feedback"></div>
+        </form>
+        <div *ngIf="hideList" class="repos-list">
+            <h3>Repositórios</h3>
+            <ul *ngFor="let repo of repos">
+                <li>
+                    <div class="left-block">
+                        <span class="repo-owner">{{ repo.owner }}</span>
+                        <span class="repo-name"><b>{{ repo.name }}</b></span>
+                    </div>
+                    <div class="right-block">
+                        <mat-icon (click)="removeRepo(repo)">delete</mat-icon>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div *ngIf="showFoundRepo" class="repos-list">
+            <h3>Repositórios</h3>
+            <ul>
+                <li>
+                    <div class="left-block">
+                        <span class="repo-owner">{{ foundRepo.owner }}</span>
+                        <span class="repo-name"><b>{{ foundRepo.name }}</b></span>
+                    </div>
+                    <div class="right-block">
+                        <mat-icon (click)="removeFoundRepo()">delete</mat-icon>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+    <section class="bottom">
+
+        <form class="new-repo">
+            <span class="text">Novo Repo</span>
+            <input id="add-input" type="text" class="new-repo-input" placeholder="Adicione um repositório..." name="repoUrl" [(ngModel)]="repoUrl">
+            <button (click)="addRepo()" class="new-repo-button">Adicionar</button>
+        </form>
+
+    </section>
+</div>
