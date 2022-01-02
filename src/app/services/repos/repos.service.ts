@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Repos } from 'src/app/models/repos/Repos';
@@ -12,25 +12,24 @@ export class ReposService {
   repoName?: string;
   ownerName?: string;
   newRepo: Repos = new Repos();
-  repos: Repos[] = [
-    {
-      name: 'repoName',
-      owner: 'repoOwner',
-      url: 'repoUrl'
-    },
-    {
-      name: 'anotherRepoName',
-      owner: 'anotherRepoOwner',
-      url: 'anotherRepoUrl'
-    }
-  ];
 
   constructor(
     private http: HttpClient
   ) { }
 
-  public displayRepos(): Repos[] {
-    return this.repos;
+  public displayRepos(): Observable<Repos> {
+    let name = window.sessionStorage.getItem('loggedUser');
+    let header: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
+    });
+    
+    let obs = this.http.get(`${this.url}/users/find/all/repos/` + name, { headers: header });
+    obs.subscribe(
+      (res) => {
+        console.log(res)
+      }
+    )
+    return obs;
   }
 
   public findRepo(term: string): Observable<Repos[]> {
@@ -39,14 +38,15 @@ export class ReposService {
     obs.subscribe(
       (res) => {
         console.log(res)
-      })
+      }
+    )
 
     return obs;
   }
 
   public addRepo(repoUrl: string) {
     this.extractNameAndOwner(repoUrl);
-    this.repos.push(this.newRepo);
+    // this.repos.push(this.newRepo);
   }
 
   public extractNameAndOwner(repoUrl: string) {
@@ -72,6 +72,6 @@ export class ReposService {
   }
 
   public removeRepo(repo: Repos) {
-    this.repos.splice(this.repos.indexOf(repo), 1);
+    // this.repos.splice(this.repos.indexOf(repo), 1);
   }
 }

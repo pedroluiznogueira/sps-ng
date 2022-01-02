@@ -37,7 +37,14 @@ export class RepoComponent implements OnInit {
   }
 
   public displayRepos(): void {
-    this.repos = this.reposService.displayRepos();
+    setTimeout(() => {
+      this.reposService.displayRepos()
+        .subscribe(
+          (repos: any) => {
+            this.repos = repos;
+          }
+        );
+    }, 3000);
   }
 
   public addRepo(): void {
