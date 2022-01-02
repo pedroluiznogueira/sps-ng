@@ -17,7 +17,7 @@ export class UserService {
   ) { }
 
   public register(user: User): Promise<User | undefined> {
-    const promise = this.http.post(`${this.url}/users/insert`, user).toPromise();
+    const promise = this.http.post(`${this.url}/users/register`, user).toPromise();
     return promise;
   }
 
@@ -31,11 +31,22 @@ export class UserService {
       'Authorization': 'Bearer '+ token
     });
 
-    let obs = this.http.get(`${this.url}/users/find/user/email/` + email, { headers: header });
-    obs.subscribe(
-      (resp: any) => {
-        window.sessionStorage.setItem('loggedUser', resp.name);
-      }
-    );
+    const promise = this.http.get(`${this.url}/users/find/by/email/` + email, { headers: header }).toPromise();
+    promise
+      .then(
+        (resp: any) => {
+          console.log('User: ' + JSON.stringify(resp));
+          let obj: any = {
+            "id": resp.id,
+            "name": resp.name
+          }
+          window.sessionStorage.setItem('loggedUser', JSON.stringify(obj))
+        }
+      )
+      .catch(
+        (error) => {
+          console.log('Error: ' + JSON.stringify(error));
+        }
+      )
   }
 }
