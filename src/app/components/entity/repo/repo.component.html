@@ -1,6 +1,6 @@
 <div class="container">
     <section class="main">
-        <form class="new-repo">
+        <form id="search-form" class="new-repo">
             <span class="text">Pesquisar</span>
             <input id="search" type="text" class="new-repo-input" placeholder="Encontre um repositório..." name="repoUrl" [(ngModel)]="repoToFind">
             <button *ngIf="hideButton" (click)="findRepo()" class="new-repo-button">Pesquisar</button>

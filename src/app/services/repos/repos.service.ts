@@ -42,9 +42,14 @@ export class ReposService {
     return promise;
   }
 
-  public addRepo(repoUrl: string) {
+  public addRepo(repoUrl: string): Promise<Object | undefined>{
     this.extractNameAndOwner(repoUrl);
-    // this.repos.push(this.newRepo);
+    let header: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer '+ window.sessionStorage.getItem('token')
+    });
+    
+    const promise = this.http.post(`${this.url}/users/insert/repo`, this.newRepo, { headers: header }).toPromise();
+    return promise;
   }
 
   public extractNameAndOwner(repoUrl: string) {
@@ -61,6 +66,7 @@ export class ReposService {
             this.newRepo.name = subRepoUrl.slice(j + 1, subRepoUrl.length);
             this.newRepo.owner = subRepoUrl.slice(0, j);
             this.newRepo.url = repoUrl;
+            this.newRepo.userName = window.sessionStorage.getItem('loggedUser')!;
             break;
           }
         }

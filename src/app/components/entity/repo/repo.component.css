@@ -21,6 +21,10 @@
 
 /* search */
 
+#search-form {
+    margin-left: 20px;
+}
+
 .search {
     display: flex;
     justify-content: center;

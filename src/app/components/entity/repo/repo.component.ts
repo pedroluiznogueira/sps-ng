@@ -70,8 +70,17 @@ export class RepoComponent implements OnInit {
   }
 
   public addRepo(): void {
-    console.log(this.repoUrl);
-    this.reposService.addRepo(this.repoUrl!);
+    this.reposService.addRepo(this.repoUrl!)
+      .then(
+        (resp) => {
+          this.displayRepos();
+        }
+      )
+      .catch(
+        (error) => {
+         console.log(error);
+        }
+      );
     this.repoUrl = " ";
   }
 
@@ -98,6 +107,9 @@ export class RepoComponent implements OnInit {
   public displaySuccessFeedback(): void {
     this.hideLoader = false;
     document.getElementById("feedback")!.classList.add("loader-success");
+    setTimeout(() => {
+      this.resetElements()
+    }, 2000);
   }
 
   public displayErrorFeedback(): void {
