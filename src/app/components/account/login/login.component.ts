@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
@@ -16,10 +17,12 @@ export class LoginComponent implements OnInit {
   userDto: UserDto = new UserDto();
   hideButton: boolean = true;
   hideLoader: boolean = true;
+  url?: string = 'http://localhost:8080';
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -66,8 +69,13 @@ export class LoginComponent implements OnInit {
   }
 
   public loginSucceded(resp: any): void {
-    window.sessionStorage.setItem("token", resp.token);
+    window.sessionStorage.setItem('token', resp.token);
+    this.shareLoggedUser(resp.token);
     this.router.navigate(['/']);
+  }
+
+  public shareLoggedUser(token: string): void {
+    this.userService.shareLoggedUser(token, this.userDto.email!);
   }
 
 }

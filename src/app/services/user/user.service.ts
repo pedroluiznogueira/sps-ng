@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -21,18 +21,21 @@ export class UserService {
     return promise;
   }
 
-  public login(userDto: UserDto): Promise<UserDto | undefined> {    
+  public login(userDto: UserDto): Promise<UserDto | undefined> {
     const promise = this.http.post(`${this.url}/users/auth`, userDto).toPromise();
     return promise;
   }
 
-  // private fetchData(){
-  //   const promise = this.httpClient.get(this.apiUrl).toPromise();
-  //   console.log(promise);  
-  //   promise.then((data)=>{
-  //     console.log("Promise resolved with: " + JSON.stringify(data));
-  //   }).catch((error)=>{
-  //     console.log("Promise rejected with " + JSON.stringify(error));
-  //   });
-  // }
+  public shareLoggedUser(token: string, email: string): void {
+    let header: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer '+ token
+    });
+
+    let obs = this.http.get(`${this.url}/users/find/user/email/` + email, { headers: header });
+    obs.subscribe(
+      (resp: any) => {
+        window.sessionStorage.setItem('loggedUser', resp.name);
+      }
+    );
+  }
 }
