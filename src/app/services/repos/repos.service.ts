@@ -8,7 +8,7 @@ import { Repos } from 'src/app/models/repos/Repos';
 })
 export class ReposService {
 
-  url?: string = "http://localhost:8080";
+  url?: string = "https://sps-test-java.herokuapp.com";
   repoName?: string;
   ownerName?: string;
   newRepo: Repos = new Repos();
