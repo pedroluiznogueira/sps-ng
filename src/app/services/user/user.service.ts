@@ -10,7 +10,7 @@ import { User } from 'src/app/models/user/User';
 })
 export class UserService {
 
-  url?: string = 'http://localhost:8080';
+  url?: string = "https://sps-test-java.herokuapp.com";
 
   constructor(
     private http: HttpClient
